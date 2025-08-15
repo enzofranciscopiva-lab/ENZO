@@ -1,0 +1,43 @@
+import random
+
+def gerar_numero_secreto(tamanho=4):
+    return [str(random.randint(0, 9)) for _ in range(tamanho)]
+
+def mostrar_progresso(numero_secreto, palpites):
+    return ' '.join([digito if digito in palpites else '_' for digito in numero_secreto])
+
+def jogar_forca():
+    print("=== JOGO DA FORCA - NÚMEROS ===")
+    numero_secreto = gerar_numero_secreto()
+    tentativas = 6
+    palpites = []
+
+    while tentativas > 0:
+        print("\nNúmero:", mostrar_progresso(numero_secreto, palpites))
+        print(f"Tentativas restantes: {tentativas}")
+        palpite = input("Digite um dígito (0-9): ").strip()
+
+        if not palpite.isdigit() or len(palpite) != 1:
+            print("Digite apenas um número de 0 a 9.")
+            continue
+
+        if palpite in palpites:
+            print("Você já tentou esse número.")
+            continue
+
+        palpites.append(palpite)
+
+        if palpite in numero_secreto:
+            print("Boa! O número está presente.")
+        else:
+            print("Errado! Esse número não está presente.")
+            tentativas -= 1
+
+        if all(d in palpites for d in numero_secreto):
+            print("\nParabéns! Você descobriu o número secreto:", ''.join(numero_secreto))
+            break
+    else:
+        print("\nGame over! O número secreto era:", ''.join(numero_secreto))
+
+if __name__ == "__main__":
+    jogar_forca()
