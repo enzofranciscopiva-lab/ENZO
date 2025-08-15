@@ -1,0 +1,109 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# Estruturas para armazenar dados
+livros = []
+usuarios = []
+livros_disponiveis = 0
+livros_emprestados = 0
+
+# Função para cadastrar livro
+def cadastrar_livro():
+    global livros_disponiveis
+    titulo = entry_titulo.get()
+    autor = entry_autor.get()
+    ano = entry_ano.get()
+    quantidade = entry_quantidade.get()
+
+    if not titulo or not autor or not ano or not quantidade.isdigit():
+        messagebox.showerror("Erro", "Preencha todos os campos corretamente.")
+        return
+
+    livros.append({"titulo": titulo, "autor": autor, "ano": ano, "quantidade": int(quantidade)})
+    livros_disponiveis += int(quantidade)
+    atualizar_status()
+    messagebox.showinfo("Sucesso", f"Livro '{titulo}' cadastrado com sucesso!")
+
+# Função para cadastrar usuário
+def cadastrar_usuario():
+    nome = entry_nome.get()
+    email = entry_email.get()
+    user_id = entry_id.get()
+
+    if not nome or not email or not user_id:
+        messagebox.showerror("Erro", "Preencha todos os campos.")
+        return
+
+    usuarios.append({"nome": nome, "email": email, "id": user_id})
+    messagebox.showinfo("Sucesso", f"Usuário '{nome}' cadastrado com sucesso!")
+
+# Função para listar livros
+def listar_livros():
+    if not livros:
+        messagebox.showinfo("Livros", "Nenhum livro cadastrado.")
+    else:
+        lista = "\n".join([f"{l['titulo']} - {l['autor']} ({l['ano']}) | Quantidade: {l['quantidade']}" for l in livros])
+        messagebox.showinfo("Livros", lista)
+
+# Função para listar usuários
+def listar_usuarios():
+    if not usuarios:
+        messagebox.showinfo("Usuários", "Nenhum usuário cadastrado.")
+    else:
+        lista = "\n".join([f"{u['nome']} - {u['email']} (ID: {u['id']})" for u in usuarios])
+        messagebox.showinfo("Usuários", lista)
+
+# Atualizar status
+def atualizar_status():
+    label_status.config(text=f"Livros Disponíveis: {livros_disponiveis} || Livros Emprestados: {livros_emprestados}")
+
+# Criar janela
+root = tk.Tk()
+root.title("Sistema de Biblioteca")
+
+# Campos de cadastro de livro
+tk.Label(root, text="Título").grid(row=0, column=0)
+entry_titulo = tk.Entry(root)
+entry_titulo.grid(row=0, column=1)
+
+tk.Label(root, text="Autor").grid(row=1, column=0)
+entry_autor = tk.Entry(root)
+entry_autor.grid(row=1, column=1)
+
+tk.Label(root, text="Ano").grid(row=2, column=0)
+entry_ano = tk.Entry(root)
+entry_ano.grid(row=2, column=1)
+
+tk.Label(root, text="Quantidade").grid(row=3, column=0)
+entry_quantidade = tk.Entry(root)
+entry_quantidade.grid(row=3, column=1)
+
+tk.Button(root, text="Cadastrar Livro", command=cadastrar_livro).grid(row=4, column=0, columnspan=2)
+
+# Campos de cadastro de usuário
+tk.Label(root, text="Nome").grid(row=5, column=0)
+entry_nome = tk.Entry(root)
+entry_nome.grid(row=5, column=1)
+
+tk.Label(root, text="E-mail").grid(row=6, column=0)
+entry_email = tk.Entry(root)
+entry_email.grid(row=6, column=1)
+
+tk.Label(root, text="ID").grid(row=7, column=0)
+entry_id = tk.Entry(root)
+entry_id.grid(row=7, column=1)
+
+tk.Button(root, text="Cadastrar Usuário", command=cadastrar_usuario).grid(row=8, column=0, columnspan=2)
+
+# Botões para listar
+tk.Button(root, text="Listar Livros", command=listar_livros).grid(row=9, column=0, columnspan=2)
+tk.Button(root, text="Listar Usuários", command=listar_usuarios).grid(row=10, column=0, columnspan=2)
+tk.Button(root, text="Emprestar Livro", command=listar_usuarios).grid(row=11, column=0, columnspan=2)
+tk.Button(root, text="Devolver Livro", command=listar_usuarios).grid(row=12, column=0, columnspan=2)
+
+# Status
+label_status = tk.Label(root, text="")
+label_status.grid(row=14, column=0, columnspan=2)
+atualizar_status()
+
+root.mainloop()
