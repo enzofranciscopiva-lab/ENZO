@@ -1,0 +1,129 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# Banco de dados simples em memória
+filmes = []
+clientes = []
+filmes_alugados = 0
+
+def cadastrar_filme():
+    titulo = entry_titulo.get()
+    genero = entry_genero.get()
+    ano = entry_ano.get()
+    quantidade = entry_qtd.get()
+
+    if titulo and genero and ano and quantidade:
+        filmes.append({
+            "titulo": titulo,
+            "genero": genero,
+            "ano": ano,
+            "quantidade": int(quantidade)
+        })
+        atualizar_status()
+        messagebox.showinfo("Sucesso", "Filme cadastrado com sucesso!")
+    else:
+        messagebox.showwarning("Erro", "Preencha todos os campos!")
+
+def cadastrar_cliente():
+    nome = entry_nome.get()
+    email = entry_email.get()
+    id_cliente = entry_id.get()
+
+    if nome and email and id_cliente:
+        clientes.append({
+            "nome": nome,
+            "email": email,
+            "id": id_cliente
+        })
+        messagebox.showinfo("Sucesso", "Cliente cadastrado com sucesso!")
+    else:
+        messagebox.showwarning("Erro", "Preencha todos os campos!")
+
+def listar_filmes():
+    lista = "\n".join([f"{f['titulo']} ({f['ano']}) - {f['quantidade']} disp."
+                       for f in filmes])
+    messagebox.showinfo("Lista de Filmes", lista if lista else "Nenhum filme cadastrado.")
+
+def listar_clientes():
+    lista = "\n".join([f"{c['id']} - {c['nome']} ({c['email']})"
+                       for c in clientes])
+    messagebox.showinfo("Lista de Clientes", lista if lista else "Nenhum cliente cadastrado.")
+
+def alugar_filme():
+    global filmes_alugados
+    if filmes:
+        for f in filmes:
+            if f['quantidade'] > 0:
+                f['quantidade'] -= 1
+                filmes_alugados += 1
+                atualizar_status()
+                messagebox.showinfo("Sucesso", f"Você alugou: {f['titulo']}")
+                return
+        messagebox.showwarning("Aviso", "Não há filmes disponíveis para aluguel!")
+    else:
+        messagebox.showwarning("Aviso", "Nenhum filme cadastrado!")
+
+def devolver_filme():
+    global filmes_alugados
+    if filmes_alugados > 0:
+        filmes[0]['quantidade'] += 1
+        filmes_alugados -= 1
+        atualizar_status()
+        messagebox.showinfo("Sucesso", "Filme devolvido com sucesso!")
+    else:
+        messagebox.showwarning("Aviso", "Nenhum filme para devolver.")
+
+def atualizar_status():
+    total_disp = sum(f['quantidade'] for f in filmes)
+    label_status.config(text=f"Filmes Disponíveis: {total_disp} || Filmes Alugados: {filmes_alugados}")
+
+# Criar janela principal
+root = tk.Tk()
+root.title("Locadora")
+
+# Campos Filme
+tk.Label(root, text="Título do Filme").grid(row=0, column=0, sticky="w")
+entry_titulo = tk.Entry(root)
+entry_titulo.grid(row=0, column=1)
+
+tk.Label(root, text="Gênero").grid(row=1, column=0, sticky="w")
+entry_genero = tk.Entry(root)
+entry_genero.grid(row=1, column=1)
+
+tk.Label(root, text="Ano").grid(row=2, column=0, sticky="w")
+entry_ano = tk.Entry(root)
+entry_ano.grid(row=2, column=1)
+
+tk.Label(root, text="Quantidade").grid(row=3, column=0, sticky="w")
+entry_qtd = tk.Entry(root)
+entry_qtd.grid(row=3, column=1)
+
+tk.Button(root, text="Cadastrar Filme", command=cadastrar_filme).grid(row=4, column=1, pady=5)
+
+# Campos Cliente
+tk.Label(root, text="Nome do Cliente").grid(row=5, column=0, sticky="w")
+entry_nome = tk.Entry(root)
+entry_nome.grid(row=5, column=1)
+
+tk.Label(root, text="E-mail").grid(row=6, column=0, sticky="w")
+entry_email = tk.Entry(root)
+entry_email.grid(row=6, column=1)
+
+tk.Label(root, text="ID").grid(row=7, column=0, sticky="w")
+entry_id = tk.Entry(root)
+entry_id.grid(row=7, column=1)
+
+tk.Button(root, text="Cadastrar Cliente", command=cadastrar_cliente).grid(row=8, column=1, pady=5)
+
+# Botões de ação
+tk.Button(root, text="Listar Filmes", command=listar_filmes).grid(row=9, column=0, pady=5)
+tk.Button(root, text="Listar Clientes", command=listar_clientes).grid(row=9, column=1, pady=5)
+
+tk.Button(root, text="Alugar Filme", command=alugar_filme).grid(row=10, column=0, pady=5)
+tk.Button(root, text="Devolver Filme", command=devolver_filme).grid(row=10, column=1, pady=5)
+
+# Status
+label_status = tk.Label(root, text="Filmes Disponíveis: 0 || Filmes Alugados: 0")
+label_status.grid(row=11, column=0, columnspan=2, pady=10)
+
+root.mainloop()
