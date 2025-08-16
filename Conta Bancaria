@@ -1,0 +1,39 @@
+class ContaBancaria:
+    def __init__(self, titular, saldo_inicial):
+        self.titular = titular
+        self.saldo = saldo_inicial  # atributo privado
+ 
+    def deposito(self, valor):
+        if valor > 0:
+            self.saldo += valor
+ 
+    def sacar(self, valor):
+        if 0 < valor <= self.saldo:
+            self.saldo -= valor
+        else:
+            print("Saldo insuficiente.")
+ 
+ 
+     # metodo getter - acessa conteudos privados
+    def saldo(self):
+        return self.saldo
+ 
+ 
+     # metodo setter - para alterar conteudos privados
+    def saldo(self, novo_valor):
+        if novo_valor <= 0:
+            self.saldo = novo_valor
+        else:
+            print("Saldo não pode ser menor que zero.")
+ 
+ 
+conta = ContaBancaria("Clebe", 5000)
+ 
+conta.sacar(10000)
+ 
+conta.saldo = 2000
+ 
+ 
+conta.saldo = 1
+ 
+print(conta.saldo)
