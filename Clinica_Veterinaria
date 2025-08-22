@@ -1,0 +1,108 @@
+from datetime import datetime
+
+# ==========================
+# Classes do Sistema
+# ==========================
+
+class Animal:
+    def _init_(self, nome, idade):
+        self._nome = nome
+        self._idade = idade
+    
+    def emitir_som(self):
+        return "Som genérico de animal"
+
+class Cachorro(Animal):
+    def emitir_som(self):
+        return "Au Au!"
+
+class Gato(Animal):
+    def emitir_som(self):
+        return "Miau!"
+
+class Passaro(Animal):
+    def emitir_som(self):
+        return "Piu Piu!"
+
+class Coelho(Animal):
+    def emitir_som(self):
+        return "Squeak!"
+
+class Cliente:
+    def _init_(self, nome, telefone):
+        self.nome = nome
+        self.telefone = telefone
+        self.animais = []
+
+    def adicionar_animal(self, animal):
+        self.animais.append(animal)
+
+class Consulta:
+    def _init_(self, animal, data, motivo):
+        self.animal = animal
+        self.data = data
+        self.motivo = motivo
+
+class ClinicaVeterinaria:
+    def _init_(self, nome):
+        self.nome = nome
+        self.clientes = []
+        self.consultas = []
+
+    def cadastrar_cliente(self, cliente):
+        self.clientes.append(cliente)
+
+    def agendar_consulta(self, consulta):
+        self.consultas.append(consulta)
+
+    def listar_consultas(self):
+        print(f"\nConsultas da Clínica {self.nome}:")
+        if not self.consultas:
+            print("Nenhuma consulta agendada.")
+        for consulta in self.consultas:
+            print(f"{consulta.data.strftime('%d/%m/%Y %H:%M')} - {consulta.animal._nome} - Motivo: {consulta.motivo}")
+
+
+# ==========================
+# Programa Principal
+# ==========================
+
+# Criando clientes
+cliente1 = Cliente("João", "9999-1111")
+cliente2 = Cliente("Maria", "8888-2222")
+
+# Criando animais
+cachorro = Cachorro("Rex", 5)
+gato = Gato("Mimi", 3)
+passaro = Passaro("Pardal", 1)
+coelho = Coelho("Snow", 2)
+
+# Associando animais aos clientes
+cliente1.adicionar_animal(cachorro)
+cliente1.adicionar_animal(passaro)
+cliente2.adicionar_animal(gato)
+cliente2.adicionar_animal(coelho)
+
+# Criando clínica
+clinica = ClinicaVeterinaria("Pet Vida")
+
+# Cadastrando clientes
+clinica.cadastrar_cliente(cliente1)
+clinica.cadastrar_cliente(cliente2)
+
+# Agendando consultas
+consulta1 = Consulta(cachorro, datetime(2025, 8, 21, 22, 0), "Perda de pelo")
+consulta2 = Consulta(gato, datetime(2025, 8, 22, 10, 0), "Vacinação")
+consulta3 = Consulta(passaro, datetime(2025, 8, 23, 9, 0), "Troca de penas")
+
+clinica.agendar_consulta(consulta1)
+clinica.agendar_consulta(consulta2)
+clinica.agendar_consulta(consulta3)
+
+# Listando consultas
+clinica.listar_consultas()
+
+# Testando polimorfismo
+print("\nTestando sons dos animais (Polimorfismo):")
+for animal in [cachorro, gato, passaro, coelho]:
+    print(f"{animal._nome} diz: {animal.emitir_som()}")
