@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jujutsu Kaisen Blog | Marcelo Paludetto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0b1a 50%, #0d0d1a 100%);
+            color: #e5d5e0;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            position: relative;
+        }
+
+        /* overlay de energia amaldiçoada */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 40%, rgba(80, 0, 80, 0.15), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* header com tema maldição */
+        .hero {
+            text-align: center;
+            padding: 2rem 1rem 2rem;
+            border-bottom: 2px solid #6b2e6b;
+            margin-bottom: 2rem;
+            background: rgba(20, 5, 20, 0.6);
+            border-radius: 2rem;
+            backdrop-filter: blur(6px);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #d4af37, #b83b5e, #7a2e7a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(180, 50, 180, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .hero .sub {
+            font-size: 1rem;
+            color: #b98fb9;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* cards com aura amaldiçoada */
+        .card {
+            background: rgba(15, 5, 15, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #7a2e7a;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.8), 0 0 12px rgba(156, 39, 176, 0.2);
+            transition: all 0.25s ease;
+        }
+
+        .card:hover {
+            border-color: #d4af37;
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .post-meta {
+            font-size: 0.8rem;
+            color: #aa7caa;
+            border-left: 3px solid #b83b5e;
+            padding-left: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #f3d5f0;
+            text-shadow: 0 0 4px #9c27b0;
+        }
+
+        .cursed-energy {
+            background: linear-gradient(90deg, #2a0f2a, #1a0520);
+            padding: 1rem;
+            border-radius: 1.2rem;
+            border-left: 6px solid #d4af37;
+            margin: 1.2rem 0;
+            font-weight: 500;
+            color: #ecd9ec;
+        }
+
+        /* grade técnica de feiticeiro */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-item {
+            background: #180b18;
+            border-radius: 1.5rem;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border: 1px solid #4a2a4a;
+            transition: 0.2s;
+        }
+
+        .feature-item:hover {
+            border-color: #d4af37;
+            background: #221022;
+            transform: scale(1.02);
+        }
+
+        .feature-icon {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 4px #b83b5e);
+        }
+
+        .domain-expansion {
+            font-family: monospace;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: #c97ec9;
+        }
+
+        /* depoimentos de feiticeiros */
+        .testimonial {
+            background: #0f0515;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid #b83b5e;
+        }
+
+        .testimonial p {
+            font-style: italic;
+        }
+
+        .testimonial span {
+            font-size: 0.8rem;
+            color: #bf8fbf;
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        /* formulário da jujutsu high */
+        .newsletter {
+            background: linear-gradient(145deg, #180b20, #0a0210);
+            border-radius: 2rem;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #b83b5e;
+            margin: 2rem 0;
+        }
+
+        .newsletter input {
+            padding: 0.8rem 1.2rem;
+            border-radius: 3rem;
+            border: 1px solid #7a2e7a;
+            width: 70%;
+            max-width: 280px;
+            margin-right: 0.5rem;
+            background: #261c2c;
+            color: #f0e6f0;
+            font-size: 1rem;
+        }
+
+        .newsletter button {
+            background: #7a2e7a;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 3rem;
+            font-weight: bold;
+            color: #f3e6f0;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .newsletter button:hover {
+            background: #b83b5e;
+            box-shadow: 0 0 12px #d4af37;
+            transform: scale(1.02);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: #cdb5cd;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .social-links a:hover {
+            color: #d4af37;
+            text-shadow: 0 0 4px #b83b5e;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            border-top: 1px solid #3a1e3a;
+            padding-top: 2rem;
+            color: #9a6e9a;
+        }
+
+        hr {
+            border-color: #3a1e3a;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .post-title {
+                font-size: 1.5rem;
+            }
+            .card {
+                padding: 1.2rem;
+            }
+        }
+
+        .badge {
+            background: #b83b5e20;
+            display: inline-block;
+            border-radius: 2rem;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.7rem;
+            border: 1px solid #b83b5e;
+            color: #e6b3cc;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HERO COM DOMÍNIO EXPANSÃO -->
+    <div class="hero">
+        <h1>⚡ Jujutsu Kaisen Blog ⚡</h1>
+        <div class="sub">✦ Expansão de Domínio do Conhecimento Tech ✦</div>
+        <p style="margin-top: 0.8rem;">Técnicas amaldiçoadas, programação e códigos que exorcizam bugs — por Marcelo Paludetto, feiticeiro de JavaScript nível 1.</p>
+        <div style="margin-top: 0.6rem;"><span class="badge">#ExpansãoDev</span> <span class="badge">#EnergiaAmaldiçoada</span> <span class="badge">#FeiticeiroTech</span></div>
+    </div>
+
+    <!-- PRIMEIRO POST ESTILO JUJUTSU -->
+    <div class="card">
+        <div class="post-meta">
+            🕯️ Lua cheia amaldiçoada • 02/06/2026 • 🧙‍♂️ Marcelo, o Manipulador de Códigos
+        </div>
+        <div class="post-title">
+            🔮 Expansão de Domínio: "Meu Primeiro Post" — 100x melhor com Energia Amaldiçoada
+        </div>
+        <div class="post-content">
+            <p><strong>Boas-vindas, feiticeiro(a)!</strong> Você acabou de entrar no meu <strong>Domínio Amaldiçoado de Tecnologia</strong>. Aqui não tem Gojo pra te salvar — só muito código, cursed techniques e conhecimento pra fortalecer seu jujutsu dev.</p>
+
+            <div class="cursed-energy">
+                🧬 <strong>Técnica Amaldiçoada Revelada:</strong> “Aprender programação sem medo das maldições (bugs).” Compartilho dicas reais, projetos e histórias de erro & acerto. Todo feiticeiro de verdade sabe que errar é parte do treinamento.
+            </div>
+
+            <p>Prepare seu <strong>Raposa de Nove Caudas interior (ou só um café mesmo)</strong>, porque vamos destrinchar Python, JavaScript, lógica e até estratégias de arquitetura. E claro, com muito meme e referências que só quem ama anime entende. <br> 
+            ✨ <em>“Através da dor, nos tornamos mais fortes”</em> — e dos erros de compilação, viramos devs lendários.</p>
+            <p>🔪 Bora que essa maldição não vai se exorcizar sozinha!</p>
+        </div>
+    </div>
+
+    <!-- O QUE ESPERAR COM TÉCNICAS AMALDIÇOADAS -->
+    <h2 style="margin-bottom: 0.5rem; display: flex; gap: 0.5rem;">⚔️ Técnicas Amaldiçoadas do Blog</h2>
+    <div class="features-grid">
+        <div class="feature-item">
+            <span class="feature-icon">🐍</span>
+            <h3>Raposa Python</h3>
+            <p>Automação, dados e scripts com energia maleável.</p>
+            <div class="domain-expansion">⊶ Téc. Amaldiçoada ⊷</div>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">🌐</span>
+            <h3>JavaScript Infinito</h3>
+            <p>Front-end & Node.js — O Seis Olhos do desenvolvimento.</p>
+            <div class="domain-expansion">⊶ Expansão DOM ⊷</div>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">🧠</span>
+            <h3>Raciocínio Lendário</h3>
+            <p>Desafios, algoritmos e resoluções nível feiticeiro especial.</p>
+            <div class="domain-expansion">⊶ Técnica Reversa ⊷</div>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">🤣</span>
+            <h3>Humor de Maldição</h3>
+            <p>Memes dev + universo Jujutsu — porque rir exorciza bugs.</p>
+            <div class="domain-expansion">⊶ Riso Amaldiçoado ⊷</div>
+        </div>
+    </div>
+
+    <!-- DEPOIMENTOS DE FEITICEIROS VETERANOS -->
+    <div class="card">
+        <h2>🗣️ O Conselho dos Feiticeiros Tech</h2>
+        <div class="testimonial">
+            <p>“Marcelo é tipo um Gojo, mas da programação: poderoso, didático e com muito estilo. Aprendi manipulação de arrays em 5 minutos. Sim, 100x melhor.”</p>
+            <span>— Satoru (backend pleno)</span>
+        </div>
+        <div class="testimonial">
+            <p>“Foi nesse blog que finalmente entendi closures e herança em JS. E ainda dou risada com os memes do Sukuna dev. Recomendo de olhos fechados.”</p>
+            <span>— Nobara Kugisaki • dev front-end</span>
+        </div>
+        <div class="testimonial">
+            <p>“O melhor lugar pra fortalecer seu jujutsu técnico. Parece que cada post tem uma expansão de domínio própria — didática impecável.”</p>
+            <span>— Megumi Fushiguro • estudante de sistemas</span>
+        </div>
+    </div>
+
+    <!-- NEWSLETTER COM TOQUE JUJUTSU -->
+    <div class="newsletter">
+        <h3>📜 Grimório de E-mails | Jujutsu High</h3>
+        <p>🔮 Receba pergaminhos com código puro e conhecimentos amaldiçoados direto no seu domínio (inbox). Sem spam, só expansão de sabedoria.</p>
+        <div style="margin-top: 1rem;">
+            <input type="email" placeholder="seu melhor e-mail de feiticeiro" id="cursedEmail">
+            <button id="summonBtn">⚡ Invocar Newsletter ⚡</button>
+        </div>
+        <p style="font-size: 0.7rem; margin-top: 0.8rem;">✉️ Promessa de feiticeiro: não venderemos sua alma para maldições de terceiros.</p>
+    </div>
+
+    <!-- CANAIS DE COMUNICAÇÃO AMALDIÇOADOS -->
+    <div class="social-links">
+        <a href="#">🐙 GitHub • Técnica das bifurcações</a>
+        <a href="#">🐦 X (ex-Twitter) • Maldito timeline</a>
+        <a href="#">💼 LinkedIn • Expansão corporativa</a>
+        <a href="#">🎴 Discord do Clã Jujutsu</a>
+    </div>
+
+    <footer>
+        <p>🕸️ Expansão de Domínio "Blog 100x Melhor" — Tema Jujutsu Kaisen 🕸️</p>
+        <p>✦ Todos os direitos amaldiçoados • Desenvolvido por Marcelo Paludetto, o Feiticeiro do Código ✦</p>
+        <p style="margin-top: 0.5rem;">⚔️ "Através do código, nos tornamos imortais." ⚔️</p>
+    </footer>
+</div>
+
+<script>
+    const summonBtn = document.getElementById('summonBtn');
+    if (summonBtn) {
+        summonBtn.addEventListener('click', () => {
+            const emailField = document.getElementById('cursedEmail');
+            const email = emailField.value.trim();
+            if (!email) {
+                alert('🔮 Ei, feiticeiro(a)! Digite um e-mail válido para receber as técnicas amaldiçoadas!');
+                return;
+            }
+            if (!email.includes('@') || !email.includes('.')) {
+                alert('⚠️ Isso parece uma maldição de e-mail incompleto. Tente novamente.');
+                return;
+            }
+            alert(`✨ Técnica bem-sucedida! ${email} agora está registrado no grimório da Jujutsu High. Prepare-se para energia pura! ✨`);
+            emailField.value = '';
+        });
+    }
+</script>
+</body>
+</html>**<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jujutsu Kaisen Blog | Marcelo Paludetto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0b1a 50%, #0d0d1a 100%);
+            color: #e5d5e0;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            position: relative;
+        }
+
+        /* overlay de energia amaldiçoada */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 40%, rgba(80, 0, 80, 0.15), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* header com tema maldição */
+        .hero {
+            text-align: center;
+            padding: 2rem 1rem 2rem;
+            border-bottom: 2px solid #6b2e6b;
+            margin-bottom: 2rem;
+            background: rgba(20, 5, 20, 0.6);
+            border-radius: 2rem;
+            backdrop-filter: blur(6px);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #d4af37, #b83b5e, #7a2e7a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(180, 50, 180, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .hero .sub {
+            font-size: 1rem;
+            color: #b98fb9;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* cards com aura amaldiçoada */
+        .card {
+            background: rgba(15, 5, 15, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #7a2e7a;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.8), 0 0 12px rgba(156, 39, 176, 0.2);
+            transition: all 0.25s ease;
+        }
+
+        .card:hover {
+            border-color: #d4af37;
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .post-meta {
+            font-size: 0.8rem;
+            color: #aa7caa;
+            border-left: 3px solid #b83b5e;
+            padding-left: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #f3d5f0;
+            text-shadow: 0 0 4px #9c27b0;
+        }
+
+        .cursed-energy {
+            background: linear-gradient(90deg, #2a0f2a, #1a0520);
+            padding: 1rem;
+            border-radius: 1.2rem;
+            border-left: 6px solid #d4af37;
+            margin: 1.2rem 0;
+            font-weight: 500;
+            color: #ecd9ec;
+        }
+
+        /* grade técnica de feiticeiro */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-item {
+            background: #180b18;
+            border-radius: 1.5rem;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border: 1px solid #4a2a4a;
+            transition: 0.2s;
+        }
+
+        .feature-item:hover {
+            border-color: #d4af37;
+            background: #221022;
+            transform: scale(1.02);
+        }
+
+        .feature-icon {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 4px #b83b5e);
+        }
+
+        .domain-expansion {
+            font-family: monospace;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: #c97ec9;
+        }
+
+        /* depoimentos de feiticeiros */
+        .testimonial {
+            background: #0f0515;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid #b83b5e;
+        }
+
+        .testimonial p {
+            font-style: italic;
+        }
+
+        .testimonial span {
+            font-size: 0.8rem;
+            color: #bf8fbf;
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        /* formulário da jujutsu high */
+        .newsletter {
+            background: linear-gradient(145deg, #180b20, #0a0210);
+            border-radius: 2rem;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #b83b5e;
+            margin: 2rem 0;
+        }
+
+        .newsletter input {
+            padding: 0.8rem 1.2rem;
+            border-radius: 3rem;
+            border: 1px solid #7a2e7a;
+            width: 70%;
+            max-width: 280px;
+            margin-right: 0.5rem;
+            background: #261c2c;
+            color: #f0e6f0;
+            font-size: 1rem;
+        }
+
+        .newsletter button {
+            background: #7a2e7a;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 3rem;
+            font-weight: bold;
+            color: #f3e6f0;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .newsletter button:hover {
+            background: #b83b5e;
+            box-shadow: 0 0 12px #d4af37;
+            transform: scale(1.02);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: #cdb5cd;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .social-links a:hover {
+            color: #d4af37;
+            text-shadow: 0 0 4px #b83b5e;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            border-top: 1px solid #3a1e3a;
+            padding-top: 2rem;
+            color: #9a6e9a;
+        }
+
+        hr {
+            border-color: #3a1e3a;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .post-title {
+                font-size: 1.5rem;
+            }
+            .card {
+                padding: 1.2rem;
+            }
+        }
+
+        .badge {
+            background: #b83b5e20;
+            display: inline-block;
+            border-radius: 2rem;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.7rem;
+            border: 1px solid #b83b5e;
+            color: #e6b3cc;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HERO COM DOMÍNIO EXPANSÃO -->
+    <div class="hero">
+        <h1>⚡ Jujutsu Kaisen Blog ⚡</h1>
+        <div class="sub">✦ Expansão de Domínio do Conhecimento Tech ✦</div>
+        <p style="margin-top: 0.8rem;">Técnicas amaldiçoadas, programação e códigos que exorcizam bugs — por Marcelo Paludetto, feiticeiro de JavaScript nível 1.</p>
+        <div style="margin-top: 0.6rem;"><span class="badge">#ExpansãoDev</span> <span class="badge">#EnergiaAmaldiçoada</span> <span class="badge">#FeiticeiroTech</span></div>
+    </div>
+
+    <!-- PRIMEIRO POST ESTILO JUJUTSU -->
+    <div class="card">
+        <div class="post-meta">
+            🕯️ Lua cheia amaldiçoada • 02/06/2026 • 🧙‍♂️ Marcelo, o Manipulador de Códigos
+        </div>
+        <div class="post-title">
+            🔮 Expansão de Domínio: "Meu Primeiro Post" — 100x melhor com Energia Amaldiçoada
+        </div>
+        <div class="post-content">
+            <p><strong>Boas-vindas, feiticeiro(a)!</strong> Você acabou de entrar no meu <strong>Domínio Amaldiçoado de Tecnologia</strong>. Aqui não tem Gojo pra te salvar — só muito código, cursed techniques e conhecimento pra fortalecer seu jujutsu dev.</p>
+
+            <div class="cursed-energy">
+                🧬 <strong>Técnica Amaldiçoada Revelada:</strong> “Aprender programação sem medo das maldições (bugs).” Compartilho dicas reais, projetos e histórias de erro & acerto. Todo feiticeiro de verdade sabe que errar é parte do treinamento.
+            </div>
+
+            <p>Prepare seu <strong>Raposa de Nove Caudas interior (ou só um café mesmo)</strong>, porque vamos destrinchar Python, JavaScript, lógica e até estratégias de arquitetura. E claro, com muito meme e referências que só quem ama anime entende. <br> 
+            ✨ <em>“Através da dor, nos tornamos mais fortes”</em> — e dos erros de compilação, viramos devs lendários.</p>
+            <p>🔪 Bora que essa maldição não vai se exorcizar sozinha!</p>
+        </div>
+    </div>
+
+    <!-- O QUE ESPERAR COM TÉCNICAS AMALDIÇOADAS -->
+    <h2 style="margin-bottom: 0.5rem; display: flex; gap: 0.5rem;">⚔️ Técnicas Amaldiçoadas do Blog</h2>
+    <div class="features-grid">
+        <div class="feature-item">
+            <span class="feature-icon">🐍</span>
+            <h3>Raposa Python</h3>
+            <p>Automação, dados e scripts com energia maleável.</p>
+            <div class="domain-expansion">⊶ Téc. Amaldiçoada ⊷</div>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">🌐</span>
+            <h3>JavaScript Infinito</h3>
+            <p>Front-end & Node.js — O Seis Olhos do desenvolvimento.</p>
+            <div class="domain-expansion">⊶ Expansão DOM ⊷</div>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">🧠</span>
+            <h3>Raciocínio Lendário</h3>
+            <p>Desafios, algoritmos e resoluções nível feiticeiro especial.</p>
+            <div class="domain-expansion">⊶ Técnica Reversa ⊷</div>
+        </div>
+        <div class="feature-item">
+            <span class="feature-icon">🤣</span>
+            <h3>Humor de Maldição</h3>
+            <p>Memes dev + universo Jujutsu — porque rir exorciza bugs.</p>
+            <div class="domain-expansion">⊶ Riso Amaldiçoado ⊷</div>
+        </div>
+    </div>
+
+    <!-- DEPOIMENTOS DE FEITICEIROS VETERANOS -->
+    <div class="card">
+        <h2>🗣️ O Conselho dos Feiticeiros Tech</h2>
+        <div class="testimonial">
+            <p>“Marcelo é tipo um Gojo, mas da programação: poderoso, didático e com muito estilo. Aprendi manipulação de arrays em 5 minutos. Sim, 100x melhor.”</p>
+            <span>— Satoru (backend pleno)</span>
+        </div>
+        <div class="testimonial">
+            <p>“Foi nesse blog que finalmente entendi closures e herança em JS. E ainda dou risada com os memes do Sukuna dev. Recomendo de olhos fechados.”</p>
+            <span>— Nobara Kugisaki • dev front-end</span>
+        </div>
+        <div class="testimonial">
+            <p>“O melhor lugar pra fortalecer seu jujutsu técnico. Parece que cada post tem uma expansão de domínio própria — didática impecável.”</p>
+            <span>— Megumi Fushiguro • estudante de sistemas</span>
+        </div>
+    </div>
+
+    <!-- NEWSLETTER COM TOQUE JUJUTSU -->
+    <div class="newsletter">
+        <h3>📜 Grimório de E-mails | Jujutsu High</h3>
+        <p>🔮 Receba pergaminhos com código puro e conhecimentos amaldiçoados direto no seu domínio (inbox). Sem spam, só expansão de sabedoria.</p>
+        <div style="margin-top: 1rem;">
+            <input type="email" placeholder="seu melhor e-mail de feiticeiro" id="cursedEmail">
+            <button id="summonBtn">⚡ Invocar Newsletter ⚡</button>
+        </div>
+        <p style="font-size: 0.7rem; margin-top: 0.8rem;">✉️ Promessa de feiticeiro: não venderemos sua alma para maldições de terceiros.</p>
+    </div>
+
+    <!-- CANAIS DE COMUNICAÇÃO AMALDIÇOADOS -->
+    <div class="social-links">
+        <a href="#">🐙 GitHub • Técnica das bifurcações</a>
+        <a href="#">🐦 X (ex-Twitter) • Maldito timeline</a>
+        <a href="#">💼 LinkedIn • Expansão corporativa</a>
+        <a href="#">🎴 Discord do Clã Jujutsu</a>
+    </div>
+
+    <footer>
+        <p>🕸️ Expansão de Domínio "Blog 100x Melhor" — Tema Jujutsu Kaisen 🕸️</p>
+        <p>✦ Todos os direitos amaldiçoados • Desenvolvido por Marcelo Paludetto, o Feiticeiro do Código ✦</p>
+        <p style="margin-top: 0.5rem;">⚔️ "Através do código, nos tornamos imortais." ⚔️</p>
+    </footer>
+</div>
+
+<script>
+    const summonBtn = document.getElementById('summonBtn');
+    if (summonBtn) {
+        summonBtn.addEventListener('click', () => {
+            const emailField = document.getElementById('cursedEmail');
+            const email = emailField.value.trim();
+            if (!email) {
+                alert('🔮 Ei, feiticeiro(a)! Digite um e-mail válido para receber as técnicas amaldiçoadas!');
+                return;
+            }
+            if (!email.includes('@') || !email.includes('.')) {
+                alert('⚠️ Isso parece uma maldição de e-mail incompleto. Tente novamente.');
+                return;
+            }
+            alert(`✨ Técnica bem-sucedida! ${email} agora está registrado no grimório da Jujutsu High. Prepare-se para energia pura! ✨`);
+            emailField.value = '';
+        });
+    }
+</script>
+</body>
+</html>**
